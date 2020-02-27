@@ -13,19 +13,6 @@ portfolio = {
 movers_url = "https://api.tdameritrade.com/v1/marketdata/$DJI/movers"
 hours_url = "https://api.tdameritrade.com/v1/marketdata/EQUITY/hours"
 
-hours_text = requests.get(hours_url, {
-		'apikey':'W2PW3SRFYIYOSFWV0VCG5UNPI5ZXEYUT',
-		'date': datetime.date.today().isoformat()
-		}).text
-
-hours = json.loads(hours_text)
-curtime = datetime.date.today()
-
-if(hours.get('equity').get('EQ').get('isOpen') == True):
-	trade()
-else:
-	print("Markets are currently closed")
-
 def trade():
 	while(True):
 		item_text = requests.get(movers_url, {
@@ -55,14 +42,4 @@ def trade():
 		print(portfolio)
 		time.sleep(10)
 
-
-def getTime(timestr):
-	ret_str = ''
-	f = False
-	for c in timestr:
-		if(f == False and c == 'T'):
-			f = True
-		if(f == True and c != 'T'):
-			ret_str += c
-		if(f == True and c == '-'):
-			return ret_str
+trade()
